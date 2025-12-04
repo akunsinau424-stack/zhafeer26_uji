@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Zhafeer26 | Beranda</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Rajdhani:wght@300;400;500;600;700&family=Exo+2:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            /* Neon Cyber-Tech Palette */
+            --neon-blue: #00D4FF;
+            --neon-purple: #9D4EDD;
+            --deep-purple: #6366F1;
+            --dark-bg: #0B1120;
+            --darker-bg: #070B14;
+            --card-bg: rgba(15, 23, 42, 0.6);
+            --text-light: #E2E8F0;
+            --text-muted: #94A3B8;
+            --glow-blue: 0 0 20px rgba(0, 212, 255, 0.5);
+            --glow-purple: 0 0 20px rgba(157, 78, 221, 0.5);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+        body {
+            font-family: 'Rajdhani', sans-serif;
+            background: linear-gradient(135deg, var(--darker-bg) 0%, var(--dark-bg) 70%);
+            background-attachment: fixed;
+            color: var(--text-light);
+            line-height: 1.7;
+            overflow-x: hidden;
+        }
+
+        /* Loading Screen */
+        .loader {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: var(--darker-bg);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            transition: opacity 0.8s ease-out;
+        }
+        .loader img {
+            width: 180px;
+            filter: drop-shadow(0 0 10px var(--neon-purple));
+            animation: float 3s ease-in-out infinite;
+        }
+        @keyframes float { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-20px); } }
+
+        /* Navbar */
+        .navbar {
+            position: fixed;
+            top: 0; left: 0; right: 0;
+            background: rgba(11, 17, 32, 0.92);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(0, 212, 255, 0.2);
+            z-index: 1000;
+            padding: 1rem 0;
+            transition: all 0.4s;
+        }
+        .nav-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .nav-logo {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 2rem;
+            font-weight: 900;
+            color: var(--neon-blue);
+            text-decoration: none;
+            text-shadow: 0 0 20px rgba(0, 212, 255, 0.7);
+        }
+        .nav-logo span { color: var(--neon-purple); font-size: 0.5em; vertical-align: super; }
+        .nav-menu {
+            display: flex;
+            gap: 2.8rem;
+            list-style: none;
+        }
+        .nav-link {
+            color: var(--text-light);
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1.1rem;
+            position: relative;
+            transition: all 0.3s;
+        }
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: linear-gradient(90deg, var(--neon-blue), var(--neon-purple));
+            transition: width 0.4s;
+            box-shadow: var(--glow-blue);
+        }
+        .nav-link:hover::after, .nav-link.active::after { width: 100%; }
+        .nav-link:hover, .nav-link.active {
+            color: var(--neon-blue);
+            text-shadow: var(--glow-blue);
+        }
+        .hamburger { display: none; cursor: pointer; }
+        .bar { width: 28px; height: 3px; background: var(--neon-blue); margin: 5px 0; transition: 0.3s; }
+
+        /* Hero */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            position: relative;
+            padding-top: 80px;
+            overflow: hidden;
+        }
+        .hero::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(circle at 30% 70%, rgba(0,212,255,0.15) 0%, transparent 50%),
+                        radial-gradient(circle at 70% 30%, rgba(157,78,221,0.15) 0%, transparent 50%);
+        }
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            max-width: 1000px;
+            padding: 0 2rem;
+            margin-bottom: 10rem;
+        }
+
+        .hero-title {
+            font-family: 'Orbitron', sans-serif;
+            font-size: clamp(4rem, 10vw, 8rem);
+            font-weight: 900;
+            background: linear-gradient(135deg, var(--neon-blue), var(--neon-purple));
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 0 40px rgba(157,78,221,0.5);
+            margin-bottom: 1rem;
+        }
+        .hero-subtitle {
+            font-size: 1.8rem;
+            color: var(--text-muted);
+            margin: 2rem 0 3rem;
+            text-shadow: 0 0 15px rgba(0,212,255,0.3);
+        }
+        .btn-primary {
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            padding: 1.2rem 3rem;
+            background: linear-gradient(135deg, var(--neon-blue), var(--neon-purple));
+            color: white;
+            font-weight: 700;
+            font-size: 1.2rem;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            text-decoration: none;
+            box-shadow: 0 10px 40px rgba(0,212,255,0.4);
+            transition: all 0.4s;
+        }
+        .btn-primary:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 50px rgba(157,78,221,0.6);
+        }
+
+        /* Scroll Indicator */
+        .scroll-indicator {
+            position: absolute;
+            bottom: 3rem;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60px; height: 60px;
+            border: 2px solid var(--neon-blue);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--neon-blue);
+            animation: bounce 2s infinite;
+            box-shadow: var(--glow-blue);
+        }
+        @keyframes bounce { 0%,100% { transform: translateX(-50%) translateY(0); } 50% { transform: translateX(-50%) translateY(-15px); } }
+
+        /* Section Sambutan (Kepsek, Pembina, dll) */
+        .section {
+            padding: 140px 0;
+            position: relative;
+        }
+        .section-alt { background: rgba(11,17,32,0.5); }
+        .container { max-width: 1300px; margin: 0 auto; padding: 0 2rem; }
+        .section-title {
+            font-family: 'Orbitron', sans-serif;
+            font-size: clamp(2.8rem, 5vw, 4.5rem);
+            font-weight: 900;
+            text-align: center;
+            margin-bottom: 5rem;
+            background: linear-gradient(135deg, var(--neon-blue), var(--neon-purple));
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 0 30px rgba(157,78,221,0.4);
+        }
+        .about-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 5rem;
+            align-items: center;
+        }
+        .image-frame {
+            width: 420px;
+            height: 420px;
+            margin: 0 auto;
+            border: 3px solid transparent;
+            border-radius: 20px;
+            padding: 12px;
+            background: linear-gradient(135deg, var(--neon-blue), var(--neon-purple)) border-box;
+            box-shadow: var(--glow-blue), var(--glow-purple);
+            animation: pulse 5s infinite;
+        }
+        .image-frame img, .image-frame i {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            border-radius: 15px;
+            background: var(--card-bg);
+        }
+        @keyframes pulse {
+            0%,100% { box-shadow: var(--glow-blue), var(--glow-purple); }
+            50% { box-shadow: 0 0 50px rgba(0,212,255,0.7), 0 0 50px rgba(157,78,221,0.7); }
+        }
+        .about-text h3 {
+            font-family: 'Exo 2', sans-serif;
+            font-size: 2.6rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            color: var(--neon-blue);
+            text-shadow: var(--glow-blue);
+        }
+        .about-text p {
+            font-size: 1.2rem;
+            color: var(--text-muted);
+            line-height: 1.9;
+        }
+
+        /* Footer */
+        .footer {
+            background: var(--darker-bg);
+            padding: 5rem 0 2rem;
+            border-top: 1px solid rgba(0,212,255,0.2);
+        }
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 3rem;
+            margin-bottom: 3rem;
+        }
+        .footer-logo {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 2rem;
+            color: var(--neon-blue);
+            text-shadow: var(--glow-blue);
+        }
+        .social-links a {
+            display: inline-flex;
+            width: 50px; height: 50px;
+            background: linear-gradient(135deg, var(--neon-blue), var(--neon-purple));
+            color: white;
+            border-radius: 50%;
+            align-items: center;
+            justify-content: center;
+            margin-right: 1rem;
+            transition: all 0.3s;
+        }
+        .social-links a:hover { transform: translateY(-8px); box-shadow: var(--glow-purple); }
+
+        /* Responsive */
+        @media (max-width: 968px) {
+            .about-content { grid-template-columns: 1fr; text-align: center; }
+            .image-frame { width: 340px; height: 340px; }
+        }
+        @media (max-width: 768px) {
+            .hamburger { display: flex; flex-direction: column; }
+            .nav-menu {
+                position: fixed;
+                top: 80px; left: -100%;
+                width: 100%;
+                height: 100vh;
+                background: rgba(7,11,20,0.98);
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                transition: 0.4s;
+            }
+            .nav-menu.active { left: 0; }
+            .nav-link { font-size: 2rem; margin: 1.5rem 0; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Loading Screen -->
+    <div class="loader">
+        <img src="gambar/99629389-e5d4-4d0d-8dca-eb863f6daef8-removebg-preview.png" alt="Zhafeer26">
+    </div>
+
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="gambar/99629389-e5d4-4d0d-8dca-eb863f6daef8-removebg-preview.png" class="nav-logo">Zhafeer<span>26</span></a>
+            <ul class="nav-menu">
+                <li><a href="#home" class="nav-link active">Beranda</a></li>
+                <li><a href="pages/about.html" class="nav-link">Tentang</a></li>
+                <li><a href="pages/galeri.html" class="nav-link">Galeri</a></li>
+                <li><a href="#event" class="nav-link">Event</a></li>
+            </ul>
+            <div class="hamburger">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero -->
+    <section id="home" class="hero">
+        <div class="hero-content">
+            <h1 class="hero-title">ZHAFEER<span style="font-size:0.5em;vertical-align:super;">26</span></h1>
+            <p class="hero-subtitle">"Zhafeer On Fire"</p>
+            <a href="pages/about.html" class="btn-primary">
+                <i class="fas fa-rocket"></i> Jelajahi Sekarang
+            </a>
+        </div>
+        <a href="#sambutan-kepsek" class="scroll-indicator">
+            <i class="fas fa-chevron-down"></i>
+        </a>
+    </section>
+
+    <!-- Sambutan Kepala Sekolah -->
+    <section id="sambutan-kepsek" class="section section-alt">
+        <div class="container">
+            <h2 class="section-title">Sambutan Kepala Sekolah</h2>
+            <div class="about-content">
+                <div class="image-frame"><i class="fas fa-user-tie" style="font-size:8rem;color:var(--neon-purple);"></i></div>
+                <div class="about-text">
+                    <h3>Visi Masa Depan SMK Al-Mahrusiyah</h3>
+                    <p>Mencetak generasi berakhlak mulia, menguasai teknologi, dan siap bersaing di era industri 4.0 serta society 5.0.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Sambutan Pembina P2K Putra -->
+    <section id="pem-p2k-putra" class="section">
+        <div class="container">
+            <h2 class="section-title">Sambutan Pembina P2K Putra</h2>
+            <div class="about-content">
+                <div class="about-text">
+                    <h3>Pembinaan Karakter & Kepemimpinan</h3>
+                    <p>Program intensif pembinaan karakter Islami dan leadership untuk membentuk pemimpin masa depan yang tangguh.</p>
+                </div>
+                <div class="image-frame"><i class="fas fa-shield-alt" style="font-size:8rem;color:var(--neon-blue);"></i></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Sambutan Presiden P2K Putra -->
+    <section id="pres-p2k-putra" class="section section-alt">
+        <div class="container">
+            <h2 class="section-title">Sambutan Presiden P2K Putra</h2>
+            <div class="about-content">
+                <div class="image-frame"><i class="fas fa-crown" style="font-size:8rem;color:var(--neon-purple);"></i></div>
+                <div class="about-text">
+                    <h3>Zhafeer26 On Fire!</h3>
+                    <p>Bersama kita wujudkan mimpi besar, taklukkan tantangan, dan ukir prestasi gemilang di kancah nasional!</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Sambutan Ketua Umum JKM 10 -->
+    <section id="jkm-10-putra" class="section">
+        <div class="container">
+            <h2 class="section-title">Sambutan Ketua Umum JKM 10</h2>
+            <div class="about-content">
+                <div class="about-text">
+                    <h3>Jaringan Profesional Masa Depan</h3>
+                    <p>JKM 10 menjadi jembatan emas menuju karir cemerlang sebelum lulus — koneksi, peluang, dan prestasi.</p>
+                </div>
+                <div class="image-frame"><i class="fas fa-network-wired" style="font-size:8rem;color:var(--neon-blue);"></i></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div>
+                    <div class="footer-logo">Zhafeer<span>26</span></div>
+                    <p class="footer-description">Generasi Emas — Teknologi — Karakter — Masa Depan</p>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-youtube"></i></a>
+                        <a href="#"><i class="fab fa-tiktok"></i></a>
+                    </div>
+                </div>
+                <div>
+                    <h4 style="color:var(--neon-blue);margin-bottom:1rem;">Quick Links</h4>
+                    <ul style="list-style:none;">
+                        <li><a href="#" style="color:var(--text-muted);text-decoration:none;">Beranda</a></li>
+                        <li><a href="pages/about.html" style="color:var(--text-muted);text-decoration:none;">Tentang</a></li>
+                        <li><a href="pages/galeri.html" style="color:var(--text-muted);text-decoration:none;">Galeri</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 style="color:var(--neon-purple);margin-bottom:1rem;">Hubungi Kami</h4>
+                    <p style="color:var(--text-muted);">SMK Al-Mahrusiyah<br>Kediri, Jawa Timur</p>
+                </div>
+            </div>
+            <div style="text-align:center;padding-top:2rem;border-top:1px solid rgba(0,212,255,0.2);color:var(--text-muted);">
+                © 2025 Zhafeer26 — JKM 10 Putra. All rights reserved.
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Loader
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                document.querySelector('.loader').style.opacity = '0';
+                setTimeout(() => document.querySelector('.loader').style.display = 'none', 800);
+            }, 1500);
+        });
+
+        // Mobile Menu
+        document.querySelector('.hamburger').addEventListener('click', () => {
+            document.querySelector('.hamburger').classList.toggle('active');
+            document.querySelector('.nav-menu').classList.toggle('active');
+        });
+
+        // Navbar scroll effect
+        window.addEventListener('scroll', () => {
+            const nav = document.querySelector('.navbar');
+            if (window.scrollY > 100) {
+                nav.style.background = 'rgba(11,17,32,0.98)';
+                nav.style.backdropFilter = 'blur(30px)';
+            } else {
+                nav.style.background = 'rgba(11,17,32,0.92)';
+                nav.style.backdropFilter = 'blur(20px)';
+            }
+        });
+    </script>
+</body>
+</html>
